@@ -1,7 +1,14 @@
 public class Main {
     public static void main(String[] args) {
 
-        Shark shark = new Shark(6.5, 17, "saltwater", 15, 164, 6);
+        Shark shark = new Shark(
+                6.5,
+                17,
+                "saltwater",
+                15,
+                164,
+                6
+        );
 
         System.out.println("Начальная скорость акулы: " + shark.getSwimSpeed() + " км/ч");
         System.out.println("Начальный уровень энергии акулы: " + shark.getEnergy());
@@ -18,7 +25,15 @@ public class Main {
 
         System.out.println("_________________________________________");
 
-        Salmon salmon = new Salmon(0.5, 4, "freshwater", 8, "autumn", 2000);
+        Salmon salmon = new Salmon(
+                0.5,
+                4,
+                "freshwater",
+                8,
+                "autumn",
+                2000
+        );
+
 
         System.out.println("Начальная скорость лосося: " + salmon.getSwimSpeed() + " км/ч");
         System.out.println("Начальный уровень энергии лосося: " + salmon.getEnergy());

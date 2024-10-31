@@ -1,67 +1,105 @@
-// Класс Shark
+/**
+ * Класс, описывающий акулу, которая может охотиться и плавать с изменяющейся скоростью.
+ * Наследует базовые свойства и методы от класса Fish и реализует интерфейс IHunt.
+ */
 public class Shark extends Fish implements IHunt {
 
-    private int quotientBiteForce;      // Коэффициент силы укуса акулы
-    private int aggressionLevel;        // Уровень агрессии акулы (от 1 до 10)
+    /** Коэффициент силы укуса акулы. */
+    private int quotientBiteForce;
 
-    // Параметризованный конструктор для инициализации полей
-    public Shark(double size, double swimSpeed, String habitat, double energy, int quotientBiteForce, int aggressionLevel) {
-        super(size, swimSpeed, habitat, energy); // Вызов конструктора родительского класса Fish
+    /** Уровень агрессии акулы (от 1 до 10). */
+    private int aggressionLevel;
+
+    /**
+     * Параметризованный конструктор для инициализации полей.
+     *
+     * @param size              Размер акулы в метрах.
+     * @param swimSpeed         Скорость акулы в км/ч.
+     * @param habitat           Среда обитания акулы ("saltwater").
+     * @param energy            Уровень энергии акулы.
+     * @param quotientBiteForce Коэффициент силы укуса акулы.
+     * @param aggressionLevel   Уровень агрессии акулы.
+     */
+    public Shark(double size, double swimSpeed, String habitat, double energy,
+                 int quotientBiteForce, int aggressionLevel) {
+        super(size, swimSpeed, habitat, energy);
         this.quotientBiteForce = quotientBiteForce;
         this.aggressionLevel = aggressionLevel;
     }
 
-    // Метод для получения текущей скорости плавания
+    /**
+     * Возвращает текущую скорость плавания акулы.
+     *
+     * @return Текущая скорость плавания.
+     */
     public double getSwimSpeed() {
         return swimSpeed;
     }
 
-    // Метод для получения текущего уровня энергии
+    /**
+     * Возвращает текущий уровень энергии акулы.
+     *
+     * @return Уровень энергии.
+     */
     public double getEnergy() {
         return energy;
     }
 
-    // Метод для получения текущего уровня агрессии
+    /**
+     * Возвращает текущий уровень агрессии акулы.
+     *
+     * @return Уровень агрессии.
+     */
     public int getAggressionLevel() {
         return aggressionLevel;
     }
 
-    // Реализация метода потребления энергии
+    /**
+     * Метод для потребления энергии. Снижение энергии зависит от текущей скорости плавания.
+     */
     @Override
     public void consumeEnergy() {
         if (swimSpeed == 25) {
-            energy -= 3; // Высокая трата энергии при максимальной скорости
+            energy -= 3;
         } else if (swimSpeed > 5) {
-            energy -= 2; // Средняя трата энергии
+            energy -= 2;
         } else {
-            energy -= 1; // Низкая трата энергии при минимальной скорости
+            energy -= 1;
         }
         System.out.println("Акула потратила энергию. Текущая энергия: " + energy);
     }
 
-    // Метод для восстановления энергии
+    /**
+     * Восстанавливает энергию акулы.
+     */
     private void recoveryEnergy() {
         energy += 8;
         System.out.println("Акула восстановила энергию. Текущая энергия: " + energy);
     }
 
-    // Метод для увеличения уровня агрессии акулы
+    /**
+     * Увеличивает уровень агрессии акулы.
+     */
     private void increaseAggression() {
-        if (aggressionLevel < 10) { // Уровень агрессии не может быть больше 10
+        if (aggressionLevel < 10) {
             aggressionLevel += 2;
             System.out.println("Агрессивность акулы возросла. Текущий уровень: " + aggressionLevel);
         }
     }
 
-    // Метод для уменьшения уровня агрессии акулы
+    /**
+     * Уменьшает уровень агрессии акулы.
+     */
     private void decreaseAggression() {
-        if (aggressionLevel > 1) { // Уровень агрессии не может быть меньше 1
+        if (aggressionLevel > 1) {
             aggressionLevel -= 2;
             System.out.println("Агрессивность акулы снизилась. Текущий уровень: " + aggressionLevel);
         }
     }
 
-    // Метод для корректировки агрессии в зависимости от уровня энергии
+    /**
+     * Корректирует уровень агрессии в зависимости от уровня энергии.
+     */
     private void adjustAggression() {
         if (energy < 8 && aggressionLevel < 10) {
             aggressionLevel++;
@@ -72,38 +110,42 @@ public class Shark extends Fish implements IHunt {
         }
     }
 
-    // Реализация метода плавания
+    /**
+     * Реализация метода плавания с изменением скорости в зависимости от уровня энергии.
+     */
     @Override
     public void swim() {
         if (energy > 10) {
-            swimSpeed += 2; // Скорость увеличивается при высоком значении энергии
+            swimSpeed += 2;
             if (swimSpeed >= 20) {
-                swimSpeed = 20; // Максимальная скорость для акулы
+                swimSpeed = 20;
                 System.out.println("Акула плывет на максимальной скорости: " + swimSpeed + " км/ч.");
             } else {
                 System.out.println("Акула увеличила скорость. Текущая скорость: " + swimSpeed + " км/ч.");
             }
         } else if (energy > 5) {
-            swimSpeed -= 1; // Скорость уменьшается при среднем значении энергии
+            swimSpeed -= 1;
             System.out.println("Акула уменьшила скорость. Текущая скорость: " + swimSpeed + " км/ч.");
         } else {
-            swimSpeed = 5; // Переход на минимальную скорость при низкой энергии
+            swimSpeed = 5;
             System.out.println("Акула плывет на минимальной скорости: " + swimSpeed + " км/ч.");
         }
-        consumeEnergy(); // Энергия уменьшается после плавания
+        consumeEnergy();
     }
 
-    // Реализация метода охоты: успех зависит от уровня агрессии и скорости
+    /**
+     * Реализация метода охоты. Успех зависит от уровня агрессии и скорости.
+     */
     @Override
     public void hunt() {
         if (aggressionLevel > 7 && swimSpeed >= 15) {
             System.out.println("Успешная охота!");
-            recoveryEnergy(); // Энергия восстанавливается после успешной охоты
-            decreaseAggression(); // Уровень агрессии снижается после успешной охоты
+            recoveryEnergy();
+            decreaseAggression();
         } else {
             System.out.println("Неудачная охота!");
-            increaseAggression(); // Уровень агрессии увеличивается после неудачной охоты
-            consumeEnergy(); // Энергия тратится на неудачную охоту
+            increaseAggression();
+            consumeEnergy();
         }
     }
 }

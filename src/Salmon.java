@@ -1,89 +1,128 @@
-// Класс Salmon
+/**
+ * Класс, описывающий лосося, который может мигрировать и плавать с изменяющейся скоростью.
+ * Наследует базовые свойства и методы от класса Fish и реализует интерфейс IMigrate.
+ */
 public class Salmon extends Fish implements IMigrate {
 
-    private String migrationSeason;         // Сезон миграции
-    private double migrationDistance;       // Расстояние миграции (км)
+    /** Сезон миграции лосося. */
+    private String migrationSeason;
 
-    // Параметризованный конструктор для инициализации полей
-    public Salmon(double size, double swimSpeed, String habitat, double energy, String migrationSeason, double migrationDistance) {
-        super(size, swimSpeed, habitat, energy); // Вызов конструктора родительского класса Fish
+    /** Расстояние миграции лосося в километрах. */
+    private double migrationDistance;
+
+    /**
+     * Параметризованный конструктор для инициализации полей.
+     *
+     * @param size             Размер лосося в метрах.
+     * @param swimSpeed        Скорость лосося в км/ч.
+     * @param habitat          Среда обитания лосося ("freshwater" или "saltwater").
+     * @param energy           Уровень энергии лосося.
+     * @param migrationSeason  Сезон миграции лосося.
+     * @param migrationDistance Расстояние миграции лосося в километрах.
+     */
+    public Salmon(double size, double swimSpeed, String habitat, double energy,
+                  String migrationSeason, double migrationDistance) {
+        super(size, swimSpeed, habitat, energy);
         this.migrationSeason = migrationSeason;
         this.migrationDistance = migrationDistance;
     }
 
-    // Метод для получения текущей скорости плавания
+    /**
+     * Возвращает текущую скорость плавания лосося.
+     *
+     * @return Текущая скорость плавания.
+     */
     public double getSwimSpeed() {
         return swimSpeed;
     }
 
-    // Метод для получения текущего уровня энергии
+    /**
+     * Возвращает текущий уровень энергии лосося.
+     *
+     * @return Уровень энергии.
+     */
     public double getEnergy() {
         return energy;
     }
 
-    // Метод для получения текущего места обитания
+    /**
+     * Возвращает текущую среду обитания лосося.
+     *
+     * @return Среда обитания.
+     */
     public String getHabitat() {
         return habitat;
     }
 
-    // Реализация метода потребления энергии
+    /**
+     * Метод для потребления энергии. Снижение энергии зависит от текущей скорости плавания.
+     */
     @Override
     public void consumeEnergy() {
         if (swimSpeed == 10) {
-            energy -= 4; // Высокая трата энергии при максимальной скорости
+            energy -= 4;
         } else if (swimSpeed > 2) {
-            energy -= 2; // Средняя трата энергии
+            energy -= 2;
         } else {
-            energy -= 1; // Низкая трата энергии при минимальной скорости
+            energy -= 1;
         }
         System.out.println("Лосось потратил энергию. Текущая энергия: " + energy);
     }
 
-    // Метод восстановления энергии через питание
+    /**
+     * Восстанавливает энергию лосося при питании.
+     */
     public void feed() {
         if (energy < 15) {
-            energy += 3; // Восстановление энергии
+            energy += 3;
             System.out.println("Лосось поел и восстановил энергию. Текущая энергия: " + energy);
         } else {
             System.out.println("Лосось достаточно сыт и не нуждается в еде.");
         }
     }
 
-    // Реализация метода плавания
+    /**
+     * Реализация метода плавания с изменением скорости в зависимости от уровня энергии.
+     */
     @Override
     public void swim() {
         if (energy > 10) {
-            swimSpeed += 2; // Скорость увеличивается при высоком значении энергии
+            swimSpeed += 2;
             if (swimSpeed >= 10) {
-                swimSpeed = 10; // Максимальная скорость для акулы
+                swimSpeed = 10;
                 System.out.println("Лосось плывет на максимальной скорости: " + swimSpeed + " км/ч.");
             } else {
                 System.out.println("Лосось увеличил скорость. Текущая скорость: " + swimSpeed + " км/ч.");
             }
         } else if (energy > 5) {
-            swimSpeed -= 1; // Скорость уменьшается при среднем значении энергии
+            swimSpeed -= 1;
             System.out.println("Лосось уменьшил скорость. Текущая скорость: " + swimSpeed + " км/ч.");
         } else {
-            swimSpeed = 2; // Переход на минимальную скорость при низкой энергии
+            swimSpeed = 2;
             System.out.println("Лосось плывет на минимальной скорости: " + swimSpeed + " км/ч.");
         }
-        consumeEnergy(); // Энергия уменьшается после плавания
+        consumeEnergy();
     }
 
-    // Реализация метода миграции: успех зависит от уровня энергии.
+    /**
+     * Реализация метода миграции. Лосось может перемещаться между пресной и соленой водой,
+     * если у него достаточно энергии для миграции.
+     *
+     * @param newHabitat Новая среда обитания ("freshwater" или "saltwater").
+     */
     public void migrate(String newHabitat) {
         if (energy >= 10) {
             if ("freshwater".equals(habitat) && "saltwater".equals(newHabitat)) {
-                habitat = newHabitat; // Лосось мигрирует в океан
+                habitat = newHabitat;
                 System.out.println("Лосось мигрировал в океан.");
             } else if ("saltwater".equals(habitat) && "freshwater".equals(newHabitat)) {
-                habitat = newHabitat; // Лосось мигрирует обратно в реку
+                habitat = newHabitat;
                 System.out.println("Лосось мигрировал обратно в реку.");
             } else {
                 System.out.println("Лосось уже находится в нужной среде.");
-                return; // Если лосось уже находится в целевом месте, миграция не нужна
+                return;
             }
-            swim(); // Плавание в процессе миграции
+            swim();
         } else {
             System.out.println("Недостаточно энергии для миграции.");
         }
